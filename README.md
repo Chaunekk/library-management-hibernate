@@ -1,5 +1,5 @@
-Library Management System
-Hệ thống quản lý thư viện được xây dựng bằng Java, Hibernate và MySQL.
+                                                            Library Management System
+                                        Hệ thống quản lý thư viện được xây dựng bằng Java, Hibernate và MySQL.
 
 📋 Mô tả dự án
 Đây là một ứng dụng quản lý thư viện hoàn chỉnh với các chức năng:
@@ -163,8 +163,8 @@ Tạo Pull Request
 Distributed under the MIT License. See LICENSE for more information.
 
 📞 Liên hệ
-Author: [Tên của bạn]
-Email: [email@example.com [blocked]]
+Author: [Lan Châu]
+Email: [chaunekk1904@gmail.com [blocked]]
 Project Link: [https://github.com/Chaunekk/library-management-system]
 🙏 Acknowledgments
 Hibernate Documentation
