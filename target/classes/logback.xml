@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- ========== CONSOLE APPENDER ========== -->
+    <!-- Ghi log ra console/terminal -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- 
+                Pattern format:
+                %d{HH:mm:ss.SSS} = Thời gian (giờ:phút:giây.millisecond)
+                [%thread] = Tên thread
+                %-5level = Log level (INFO, DEBUG, ERROR...) với độ rộng 5 ký tự
+                [%X{correlationId}] = Correlation ID để track request
+                %logger{36} = Tên class logger (tối đa 36 ký tự)
+                %msg = Nội dung message
+                %n = Xuống dòng
+            -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%X{correlationId}] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ========== FILE APPENDER ========== -->
+    <!-- Ghi log ra file với rolling policy -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- File log chính -->
+        <file>logs/library-management.log</file>
+        
+        <!-- Rolling policy - tạo file mới mỗi ngày -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Pattern tên file theo ngày -->
+            <fileNamePattern>logs/library-management.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- Giữ log trong 30 ngày -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        
+        <encoder>
+            <!-- Pattern chi tiết hơn cho file log -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{correlationId}] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ========== HIBERNATE LOGGING ========== -->
+    <!-- Cấu hình log level cho Hibernate -->
+    <logger name="org.hibernate" level="WARN"/>
+    
+    <!-- Log SQL queries (DEBUG = hiển thị, WARN = ẩn) -->
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    
+    <!-- Log SQL parameters (TRACE = hiển thị giá trị, WARN = ẩn) -->
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
+
+    <!-- ========== APPLICATION LOGGING ========== -->
+    <!-- Log level cho package com.library -->
+    <logger name="com.library" level="DEBUG"/>
+
+    <!-- ========== ROOT LOGGER ========== -->
+    <!-- Cấu hình mặc định cho tất cả logger -->
+    <root level="INFO">
+        <!-- Ghi log ra cả console và file -->
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
