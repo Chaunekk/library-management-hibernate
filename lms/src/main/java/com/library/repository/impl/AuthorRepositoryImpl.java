@@ -1,6 +1,7 @@
-package com.library.repository;
+package com.library.repository.impl;
 
 import com.library.entity.Author;
+import com.library.repository.AuthorRepository;
 import com.library.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

@@ -1,7 +1,8 @@
-package com.library.repository;
+package com.library.repository.impl;
 
 import com.library.entity.Borrowing;
 import com.library.entity.Borrowing.BorrowingStatus;
+import com.library.repository.BorrowingRepository;
 import com.library.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

@@ -1,70 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
     <session-factory>
-        <!-- ========== DATABASE CONNECTION SETTINGS ========== -->
-        <!-- Driver JDBC cho MySQL 8.0+ -->
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        
-        <!-- URL kết nối database - thay đổi tên database nếu cần -->
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/library_management?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</property>
-        
-        <!-- Username MySQL - thay đổi theo cấu hình của bạn -->
-        <property name="hibernate.connection.username">root</property>
-        
-        <!-- Password MySQL - NHỚ THAY ĐỔI THEO MẬT KHẨU CỦA BẠN -->
-        <property name="hibernate.connection.password">your_password</property>
+        <!-- Cấu hình kết nối database -->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/library_db?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">password</property>
 
-        <!-- ========== CONNECTION POOL SETTINGS ========== -->
-        <!-- Số lượng connection tối đa trong pool -->
-        <property name="hibernate.connection.pool_size">10</property>
+        <!-- Cấu hình connection pool -->
+        <property name="connection.pool_size">10</property>
 
-        <!-- ========== SQL DIALECT & LOGGING ========== -->
-        <!-- Dialect cho MySQL 8.0 - giúp Hibernate tạo SQL đúng cú pháp -->
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <!-- SQL dialect cho MySQL -->
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
 
-        <!-- Hiển thị SQL queries trong console (false = tắt, true = bật) -->
-        <property name="hibernate.show_sql">false</property>
-        
-        <!-- Format SQL cho dễ đọc -->
-        <property name="hibernate.format_sql">true</property>
+        <!-- Bật quản lý session tự động của Hibernate -->
+        <property name="current_session_context_class">thread</property>
 
-        <!-- ========== SCHEMA MANAGEMENT ========== -->
-        <!-- 
-            Quản lý schema database:
-            - create: Tạo mới schema mỗi lần chạy (xóa data cũ)
-            - update: Cập nhật schema nếu có thay đổi (giữ data)
-            - validate: Chỉ kiểm tra schema có đúng không
-            - none: Không làm gì
-        -->
+        <!-- Tắt second-level cache -->
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+
+        <!-- Hiển thị SQL queries ra console -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!-- Tự động tạo/cập nhật database schema -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <!-- ========== SESSION MANAGEMENT ========== -->
-        <!-- Quản lý session tự động theo thread -->
-        <property name="hibernate.current_session_context_class">thread</property>
-
-        <!-- ========== 2ND LEVEL CACHE CONFIGURATION ========== -->
-        <!-- Bật 2nd level cache để tăng performance -->
-        <property name="hibernate.cache.use_second_level_cache">true</property>
-        
-        <!-- Bật query cache để cache kết quả truy vấn -->
-        <property name="hibernate.cache.use_query_cache">true</property>
-        
-        <!-- Sử dụng EhCache làm cache provider -->
-        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.jcache.JCacheRegionFactory</property>
-        <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property>
-        
-        <!-- File cấu hình cache -->
-        <property name="hibernate.javax.cache.uri">ehcache.xml</property>
-
-        <!-- ========== ENTITY MAPPINGS ========== -->
-        <!-- Đăng ký các Entity classes - sẽ tạo sau -->
+        <!-- Mapping các Entity classes -->
         <mapping class="com.library.entity.Book"/>
         <mapping class="com.library.entity.Author"/>
         <mapping class="com.library.entity.Member"/>
         <mapping class="com.library.entity.Borrowing"/>
+        
     </session-factory>
 </hibernate-configuration>
