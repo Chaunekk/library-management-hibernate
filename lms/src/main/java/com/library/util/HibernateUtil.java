@@ -6,47 +6,51 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Utility class để quản lý Hibernate SessionFactory
- * Sử dụng Singleton pattern để đảm bảo chỉ có 1 SessionFactory trong toàn bộ app
+ * Hibernate Utility class để quản lý SessionFactory (Singleton pattern).
  */
-public class HibernateUtil {
-    // Logger để ghi log các hoạt động
+public final class HibernateUtil {
+
     private static final Logger logger = LoggerFactory.getLogger(HibernateUtil.class);
+
+    // Singleton instance
+    private static final SessionFactory sessionFactory = buildSessionFactory();
 
     // Private constructor để ngăn tạo instance
     private HibernateUtil() {
-        // Utility class không cần constructor public
     }
 
-    // SessionFactory instance - static để dùng chung cho toàn bộ app
-    private static SessionFactory sessionFactory;
-
-    // Static block - chạy 1 lần khi class được load
-    static {
+    /**
+     * Khởi tạo SessionFactory từ file hibernate.cfg.xml.
+     */
+    private static SessionFactory buildSessionFactory() {
         try {
-            // Tạo SessionFactory từ file hibernate.cfg.xml
-            sessionFactory = new Configuration().configure().buildSessionFactory();
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.cfg.xml"); // nạp cấu hình từ classpath
+
+            // Nếu dùng annotated entity, có thể thêm vào đây
+            // configuration.addAnnotatedClass(Book.class);
+            // configuration.addAnnotatedClass(Author.class);
+
             logger.info("Hibernate SessionFactory created successfully");
-        } catch (Exception e) {
-            // Log lỗi và throw exception nếu không tạo được SessionFactory
-            logger.error("Failed to create SessionFactory", e);
-            throw new ExceptionInInitializerError(e);
+            return configuration.buildSessionFactory();
+        } catch (Throwable ex) {
+            logger.error("Initial SessionFactory creation failed.", ex);
+            throw new ExceptionInInitializerError(ex);
         }
     }
 
     /**
-     * Lấy SessionFactory instance
-     * @return SessionFactory
+     * Lấy SessionFactory (dùng chung cho toàn ứng dụng).
      */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * Đóng SessionFactory khi ứng dụng kết thúc
+     * Đóng SessionFactory khi ứng dụng kết thúc.
      */
     public static void shutdown() {
-        if (sessionFactory != null) {
+        if (sessionFactory != null && !sessionFactory.isClosed()) {
             sessionFactory.close();
             logger.info("Hibernate SessionFactory closed");
         }

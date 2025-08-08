@@ -36,5 +36,16 @@
         <mapping class="com.library.entity.Member"/>
         <mapping class="com.library.entity.Borrowing"/>
         
+         <!-- Driver và URL kết nối đến MySQL -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/library_db</property>
+        <!-- Thông tin đăng nhập -->
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">password</property>
+        <!-- Dialect tương ứng với MySQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <!-- (Các thiết lập tuỳ chọn) -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
     </session-factory>
 </hibernate-configuration>
