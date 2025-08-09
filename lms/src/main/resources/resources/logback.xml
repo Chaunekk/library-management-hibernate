@@ -38,6 +38,31 @@
         </encoder>
     </appender>
 
+    <!-- ========== ERROR FILE APPENDER ========== -->
+    <!-- Ghi log lỗi ra file riêng -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- File log lỗi chính -->
+        <file>logs/library-management-error.log</file>
+        
+        <!-- Rolling policy - tạo file mới mỗi ngày -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Pattern tên file lỗi theo ngày -->
+            <fileNamePattern>logs/library-management-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- Giữ log lỗi trong 30 ngày -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        
+        <encoder>
+            <!-- Pattern chi tiết cho file log lỗi -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{correlationId}] %logger{36} - %msg%n</pattern>
+        </encoder>
+        
+        <!-- Lọc chỉ ghi log cấp độ ERROR -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
     <!-- ========== HIBERNATE LOGGING ========== -->
     <!-- Cấu hình log level cho Hibernate -->
     <logger name="org.hibernate" level="WARN"/>
@@ -55,8 +80,9 @@
     <!-- ========== ROOT LOGGER ========== -->
     <!-- Cấu hình mặc định cho tất cả logger -->
     <root level="INFO">
-        <!-- Ghi log ra cả console và file -->
+        <!-- Ghi log ra cả console, file chính và file lỗi -->
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
     </root>
 </configuration>
